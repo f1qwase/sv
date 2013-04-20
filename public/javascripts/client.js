@@ -28,7 +28,7 @@ var files = [
 	}
 ]
 $(function(){
-	$.Mustache.load('./templates/templates.html')
+	$.Mustache.load('./views/templates.html')
 	    .done(function ( ) {
 	    	// console.log(arguments)
 	    	var fileListView = $.Mustache.render('fileList', files)
