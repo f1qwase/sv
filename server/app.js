@@ -13,8 +13,10 @@ app.use(orm.express("mysql://" + config.dbUser + ":" + config.dbPassword + "@" +
         models.file = db.define("file", {
         	name: String,
 			url: String,
+			subject: String,
 			semester: Number,
-			type: ["лекции", "задание", "готовая работа", "вопросы", "другое"]
+			type: ["лекции", "задание", "готовая работа", "вопросы", "другое"],
+			date: Number
         });
     }
 }));
