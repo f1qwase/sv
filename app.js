@@ -6,7 +6,7 @@ var app = express()
 
 // var config = JSON.parse(fs.readFileSync("config.json"))
 
-console.log("mysql://" + config.dbUser + ":" + config.dbPassword + "@" + config.dbHost + "/" + config.dbDatabase)
+// console.log("mysql://" + config.dbUser + ":" + config.dbPassword + "@" + config.dbHost + "/" + config.dbDatabase)
 
 // app.use(orm.express("mysql://" + config.dbUser + ":" + config.dbPassword + "@" + config.dbHost + "/" + config.dbDatabase, {
 //     define: function (db, models) {
