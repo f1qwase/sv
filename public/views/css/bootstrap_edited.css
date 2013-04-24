@@ -29,3 +29,11 @@ padding-top: 100px; /* 60px to make the container go all the way to the bottom o
        -o-transition: height 0.35s ease;
           transition: height 0.35s ease;
 }
+
+.well { /*if well changing will be needed*/
+}
+
+.dl-horizontal
+{
+    margin-left: -80px;
+}
