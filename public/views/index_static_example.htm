@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Файлоархив</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="public/views/css/bootstrap.css" rel="stylesheet">
+    <link href="public/views/css/bootstrap_edited.css" rel="stylesheet">    
+    
+    <link href="public/views/css/bootstrap-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="public/views/css/bootstrap-select.css">
+
+    <script type="text/javascript" src="public/views/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="public/views/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="public/views/js/bootstrap-select.js"></script>
+
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?92"></script>
+    <script type="text/javascript">
+    VK.init({apiId: 3595601, onlyWidgets: true});
+    </script>
+
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" href="ico/favicon.png">
+  </head>
+  <body>
+    <!--Beginning of navbar-->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <a class="brand" href="#">Файловый архив группы СВ</a>        
+          <div class="nav-collapse collapse">
+            <div class="span2">
+              <button type="button" class="btn btn-block btn-primary" data-toggle="collapse" data-target="#navigation_panel">
+              Навигация
+              </button>
+            </div>
+            <div class="span2">
+              <button type="button" class="btn btn-block" data-toggle="collapse" data-target="#navigation_panel">
+              Загрузить файл
+              </button>
+            </div>
+            <div class="span2">
+              <form class="navbar-search pull-left">
+                <input type="text" class="search-query" placeholder="Поиск">
+              </form>
+            </div>            
+          </div><!--/.nav-collapse -->
+        <div class="container"></div>        <!--bad, bad hack, should be reworked-->
+        <div id="navigation_panel" class="navipanel">
+          <div class="bs-docs-example">
+            <select class="selectpicker span2" multiple title='Курс'>
+              <option>Первый</option>
+              <option>Второй</option>
+              <option>Третий</option>
+              <option>Четвертый</option>
+              <option>Пятый</option>
+              <option>Шестой</option>
+              <option>Прочее</option>
+            </select>
+            <select class="selectpicker span2" multiple title='Семестр'>
+                <option>Первый</option>
+                <option>Второй</option>
+            </select>
+            <select class="selectpicker span2" multiple title='Предмет'>
+                <option>Предмет</option>
+                <option>Предмет1</option>
+            </select>
+            <select class="selectpicker span2" multiple title='Тип'>
+                <option>pdf</option>
+                <option>doc</option>
+                <option>другое</option>
+            </select>
+          </div>      
+        </div><!--/.nav-collpase ending -->
+      </div>
+    </div>
+    <!--navbar ending-->
+<!--Files list-->
+<div class="accordion span12" id="accordion2">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+        Итоговая курсовая работа
+      </a>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <dl>
+          <dt>Тип файла:</dt>
+          <dd>pdf</dd>
+          <dt>Залил:</dt>
+          <dd>Иванов</dd>
+        </dl>
+        <p id ="file_description">Методичка по курсовой работе со списком вариантов. Тут ещё можно много важной инфы разместить, например. Много текста сюда можно вставить, если кто-то будет заморачиваться.</p>
+        <a class="btn" href="http:\\ya.disk.ru">Скачать</a>
+        </p>
+        <div id="vk_comments"></div> <!--should be unique for every block-->
+        <script type="text/javascript">
+        VK.Widgets.Comments("vk_comments", {limit: 10, width: "800", attach: "*"});
+        </script>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+        Скан лекции
+      </a>
+    </div>
+    <div id="collapseTwo" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <p class ="file_type">Тип файла: jpg</p>
+        <p class ="file_uploader">Залил: Петров</p>
+        <p class ="file_description">Скан лекции по предмету в виде картинки.</p>
+        <a class="btn" href="http:\\ya.disk.ru">Скачать</a>
+        </p>
+        <div id="vk_comments_1"></div>
+        <script type="text/javascript">
+        VK.Widgets.Comments("vk_comments_1", {limit: 10, width: "800", attach: "*"});
+        </script>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Select buttons activation -->    
+  <script type="text/javascript">
+  $('.selectpicker').selectpicker();
+    </script>
+  </body>
+</html>
