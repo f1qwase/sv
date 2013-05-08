@@ -8,3 +8,4 @@ sv
 *модули*
 + orm
 3. БД mysql
+4. Предварительно порезал на шаблоны index.htm, хранятся в папке \public\templates, mustache ещё не прикручивал
