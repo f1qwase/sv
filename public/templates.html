@@ -1,0 +1,14 @@
+<script id="file" type="text/html">
+	<span><b>{{name}}</b> - <span style="color:grey">({{subject}})</span></span>
+</script>
+
+<script id="fileList" type="text/html">
+	<h3>ниже вы видите список файлов</h3>
+	<ul>
+		{{#.}}
+			<li>
+				{{>file}}
+			</li>
+		{{/.}}
+	</ul>
+</script>
