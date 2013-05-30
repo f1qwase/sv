@@ -42,7 +42,9 @@ app.use(express.static('public'))
 // app.use("/js/", express.static(path.join(__dirname, 'public/javascripts')))
 // app.use("/views/", express.static(path.join(__dirname, 'public/views')))
 
-app.get('/', routes.index)
+app.get('/', function(req, res) {
+res.sendfile("public/index.htm")
+})
 
 app.get('/files', function(req, res) {
 	// file.create([
