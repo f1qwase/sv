@@ -1,5 +1,6 @@
 var getStartFileList = function(callback) {
-	$.getJSON("filesStub.json", callback)
+	// $.getJSON("filesStub.json", callback
+	$.get("filesStub.json", {}, callback)
 }
 
 var upload_file = function(file, callback) {

@@ -3,12 +3,12 @@
 		"file_id":"file_id1",
 		"file_academic_year":1,
 		"file_semester":2,
-		"file_subject":"Физика"
+		"file_subject":"Физика",
 		"file_type": "Лекция",
-
+		
 		"file_name": "Конспект по физике",
 		"file_uploader": "Вася Нонеймов",
 		"file_description": "Конспект лекций по физики второго семестра",
-		"file_url": "https://disk.yandex.ru/file1",
-	},
+		"file_url": "https://disk.yandex.ru/file1"
+	}
 ]
