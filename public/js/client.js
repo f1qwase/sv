@@ -1,37 +1,22 @@
-var files = [
-	{
-		name: "конспект по физике",
-		url: "http://google.com&q=конспект по физике",
-		subject: "физика",
-		semester: 4,
-		type: "лекция",
-		author: "Виктор Пепяка",
-		date: ""
-	},
-	{
-		name: "лаба по ЗИ",
-		url: "http://google.com&q=лаба по ЗИ",
-		subject: "защита информации",
-		semester: 4,
-		type: "задание",
-		author: "Андрей И",
-		date: ""
-	},
-	{
-		name: "моя лаба по ЗИ 1",
-		url: "http://google.com&q=моя лаба по ЗИ 1",
-		subject: "готовая работа",
-		semester: 4,
-		type: "лекция",
-		author: "John Doe",
-		date: ""
-	}
-]
+var getStartFileList = function(callback) {
+	$.getJSON("filesStub.json", callback)
+}
+
+var upload_file = function(file, callback) {
+
+}
+
 $(function(){
-	$.Mustache.load('./views/templates.html')
-	    .done(function ( ) {
-	    	// console.log(arguments)
-	    	var fileListView = $.Mustache.render('fileList', files)
-	    	$("body").append(fileListView)
-  		})
+	$.Mustache.load('element_template.htm').done(function ( ) {
+		// console.log(arguments)
+		getStartFileList(function(data) {
+			console.log(data)
+			data.forEach(function(file) {
+				var fileView = $.Mustache.render('fileView', file)
+				console.log(file)
+				$("#accordion2").append(fileView)
+			})
+		})
+	})
+	
 })
