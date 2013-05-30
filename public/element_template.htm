@@ -1,24 +1,25 @@
 ﻿<script id="fileView">
       <div class="accordion-group well well-small">
         <div class="accordion-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-            <strong>Element's name</strong>
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{file_id}}">
+            <strong>{{file_name}}</strong>
           </a>
         </div>
-        <div id="collapseOne" class="accordion-body collapse">
+        <div id="collapse{{file_id}}" class="accordion-body collapse">
           <div class="accordion-inner">
             <dl class="dl-horizontal">
               <dt>Тип файла:</dt>
-              <dd>type</dd>
+              <dd>{{file_type}}</dd>
               <dt>Залил:</dt>
-              <dd>uploader</dd>
+              <dd>{{file_uploader}}</dd>
             </dl>
-            <p id ="file_description">Description of the file</p>
+            <p id ="file_description">{{file_description}}</p>
+            <a class="btn" href="{file_url}}">Скачать</a>
             <a class="btn btn-danger" href="#modal_file_deleting" data-toggle="modal">Удалить</a>
             </p>
-            <div id="vk_comments_number_of_element"></div> <!--should be unique for every block-->
+            <div id="vk_comments_{{file_id}}"></div> <!--should be unique for every block-->
             <script type="text/javascript">
-            VK.Widgets.Comments("vk_comments_number_of_element", {limit: 10, width: "800", attach: "*"});
+            VK.Widgets.Comments("vk_comments_{{file_id}}", {limit: 10, width: "800", attach: "*"});
             </script>
           </div>
         </div>
