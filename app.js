@@ -29,7 +29,7 @@ var app = express()
  
 // all environments
 app.set( 'views', __dirname + '/public/views' );
-app.set( 'port', process.env.PORT || 80 )
+app.set( 'port', process.env.PORT || 8080 )
 app.engine( 'html', cons.mustache );
 app.set( 'view engine', 'html' )
 app.use( express.favicon() ) // TODO посмотреть
