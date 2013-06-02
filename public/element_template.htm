@@ -1,4 +1,5 @@
 ﻿<script id="fileView">
+</script>
       <div class="accordion-group well well-small">
         <div class="accordion-heading">
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{file_id}}">
@@ -7,14 +8,21 @@
         </div>
         <div id="collapse{{file_id}}" class="accordion-body collapse">
           <div class="accordion-inner">
+            <!--tags for a file-->
+            <span class="label label-info">Курс: {{"file_academic_year}}</span>
+            <span class="label label-info">Семестр: {{file_semester}}</span>
+            <span class="label label-info">Предмет: {{file_subject}}</span>
+            <span class="label label-info">Тип: {{file_type}}</span>
+            </br>
+            <!--end of tags for a file-->
             <dl class="dl-horizontal">
-              <dt>Тип файла:</dt>
-              <dd>{{file_type}}</dd>
               <dt>Залил:</dt>
               <dd>{{file_uploader}}</dd>
+              <dt>Дата:</dt>
+              <dd>{{file_upload_date}}</dd>
             </dl>
             <p id ="file_description">{{file_description}}</p>
-            <a class="btn" href="{file_url}}">Скачать</a>
+            <a class="btn btn-primary" href="{file_url}}">Скачать</a>
             <a class="btn btn-danger" href="#modal_file_deleting" data-toggle="modal">Удалить</a>
             </p>
             <div id="vk_comments_{{file_id}}"></div> <!--should be unique for every block-->
@@ -24,4 +32,3 @@
           </div>
         </div>
       </div>
-</script>
