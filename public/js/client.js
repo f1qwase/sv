@@ -21,3 +21,23 @@ $(function(){
 	})
 	
 })
+
+var getStartNavbar = function(callback) {
+	$.get("dataNavbarStub.json", {}, callback)
+}
+
+$(function(){
+	$.Mustache.load('navbar_template.htm').done(function ( ) {
+		getStartNavbar(function(data) {
+			console.log(data)
+			data.forEach(function(file) {
+				var navbarView = $.Mustache.render('navbarView', file)
+				console.log(file)
+				$("#navbar_position").append(navbarView)
+			})
+			$(".alert").alert();
+			$('.selectpicker').selectpicker();
+		})
+	})
+
+})

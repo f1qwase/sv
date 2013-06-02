@@ -1,14 +1,15 @@
 [
 	{
-		"file_id":"file_id1",
-		"file_academic_year":1,
-		"file_semester":2,
-		"file_subject":"Физика",
-		"file_type": "Лекция",
+		"id":"id1",
+		"academicYear":1,
+		"semester":2,
+		"subject":"Физика",
+		"type": "Лекция",
 		
-		"file_name": "Конспект по физике",
-		"file_uploader": "Вася Нонеймов",
-		"file_description": "Конспект лекций по физики второго семестра",
-		"file_url": "https://disk.yandex.ru/file1"
+		"filename": "Конспект по физике",
+		"uploader": "Вася Нонеймов",
+		"uploadDate": "12.23.2012",
+		"description": "Конспект лекций по физики второго семестра",
+		"link": "https://disk.yandex.ru/file1"
 	}
 ]
