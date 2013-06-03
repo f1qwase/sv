@@ -93,6 +93,18 @@ app.use(orm.express( DbStr, {
 app.use( app.router );
 
 /* сделать принималку POST запросов для заполнения таблиц type, kurs, semes, subj */
+app.post('/filterdata', function(req, res){
+	if (req.body.tval!=null)
+	{
+		req.models[req.body.bdname].create([
+    		{
+        		val: req.body.tval ,
+	    	}], function (err, items) {
+			//;
+		});
+	}
+	res.sendfile("public/test.htm")
+});
 
 
 /* SERVER START */
