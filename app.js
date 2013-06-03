@@ -93,7 +93,7 @@ app.use(orm.express( DbStr, {
 app.use( app.router );
 
 /* сделать принималку POST запросов для заполнения таблиц type, kurs, semes, subj */
-app.getapp.get('/filterdata', function(req, res) {
+app.get('/filterdata', function(req, res) {
 	res.sendfile("public/test.htm")
 })
 app.post('/filterdata', function(req, res){
