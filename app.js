@@ -141,7 +141,7 @@ app.get('/files', function(req, res) {
 
 
 
-
+/*
 req.models.file.create([
     {
         filename: "file1",
@@ -154,7 +154,7 @@ req.models.file.create([
 		console.log (err);
 	}
 );
-
+*/
 
 	//res.send('form worked ' );
 });
