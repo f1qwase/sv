@@ -44,7 +44,7 @@ background: #D4D3D1;
 background: #F6F4ED;
 }
 
-.dl-horizontal
+/*.dl-horizontal
 {
     margin-left: -80px;
-}
+} currently dont used due to resizing issue*/

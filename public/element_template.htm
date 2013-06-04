@@ -14,12 +14,15 @@
             <span class="label label-info">Тип: {{type}}</span>
             </br>
             <!--end of tags for a file-->
-            <dl class="dl-horizontal">
-              <dt>Залил:</dt>
+            <!--<dl class="dl-horizontal">
+              <dt >Залил:</dt>
               <dd>{{uploader}}</dd>
               <dt>Дата:</dt>
               <dd>{{uploadDate}}</dd>
-            </dl>
+            </dl>-->
+            </br>
+            <p><strong>Залил:&#x0020;</strong>{{uploader}}</p><!--TODO: hack, need to be reworked-->
+            <p><strong>Дата:&#x0020;</strong>{{uploadDate}}</p>
             <p id ="file_description">{{description}}</p>
             <a class="btn btn-primary" href="{{link}}">Скачать</a>
             <a class="btn btn-danger" href="#modal_file_deleting" data-toggle="modal">Удалить</a>
