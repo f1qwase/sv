@@ -1,6 +1,6 @@
 {
-  "lgn": "root",
-  "ass": "password",
+  "lgn": "svuser",
+  "ass": "sv101sv",
   "hst": "localhost",
-  "dbn": "svs"
+  "dbn": "svprj"
 }
