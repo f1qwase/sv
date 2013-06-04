@@ -12,6 +12,11 @@ req.models.file.create([
 	}
 */
 
+exports.struct = function(req, res) {
+	var params = req.params.id;
+	res.send(params);
+}
+
 exports.files = function(req, res) {
 	req.models.file.find({ /*name: "file1"*/ }, function (err, files) {
 		console.log("Files found: %d", files.length);
