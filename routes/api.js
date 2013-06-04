@@ -14,7 +14,16 @@ req.models.file.create([
 
 exports.struct = function(req, res) {
 	var params = req.params.id;
-	res.send(params);
+	var Klassif = ["academicYear", "semester", "subject", "type"]
+	
+//res.writeHead(200, {'Content-Type': 'text/plain'});
+
+//"type", "academicYear", "semester", "subject"
+	req.models[(params==null)?Klassif[0]:params].find({  }, function (err, SearchRes) {
+		res.send( SearchRes[0].val );
+	});
+//    res.write(" ok");
+//	res.end();
 }
 
 exports.files = function(req, res) {
