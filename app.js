@@ -95,7 +95,7 @@ app.use( app.router );
 
 app.get('/filterdata', api.structdatai)
 app.get( '/files', api.files );
-app.get( '/structure/:id', api.struct );
+app.get( '/structure/:id?', api.struct );
 app.get( '/', routes.index );
 app.post('/filterdata', api.structdata);
 
