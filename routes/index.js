@@ -3,5 +3,6 @@
  */
 
 exports.index = function(req, res){
-	res.render('index', { name: 'друг' })
+	res.sendfile("public/index.htm")
+	//res.render('index.htm', { title: 'SNAME' });
 }

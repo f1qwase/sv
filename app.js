@@ -5,6 +5,7 @@ var DbStr = "mysql://" + cnf.lgn + ":" + cnf.ass + "@" + cnf.hst + "/" + cnf.dbn
 
 var express = require('express')
 	, routes = require('./routes')
+	, api  = require('./routes/api')
 	, user = require('./routes/user')
 	, http = require('http')
 	, path = require('path')
@@ -12,7 +13,7 @@ var express = require('express')
 	, url  = require('url');
 
 var app = express()
- 
+
 console.log("DataBase config: " + DbStr );
 
 // all environments
@@ -92,69 +93,10 @@ app.use(orm.express( DbStr, {
 
 app.use( app.router );
 
-/* сделать принималку POST запросов для заполнения таблиц type, kurs, semes, subj */
-app.get('/filterdata', function(req, res) {
-	res.sendfile("public/test.htm")
-})
-app.post('/filterdata', function(req, res){
-	if (req.body.tval!=null)
-	{
-		req.models[req.body.bdname].create([
-    		{
-        		val: req.body.tval ,
-	    	}], function (err, items) {
-			//;
-		});
-	}
-	res.sendfile("public/test.htm")
-});
-
+app.get('/filterdata', api.structdatai)
+app.get( '/files', api.files );
+app.get( '/', routes.index );
+app.post('/filterdata', api.structdata);
 
 /* SERVER START */
 app.listen(app.get('port'), function() {console.log("Listening on " + app.get('port'))});
-
-/* INDEX */
-app.get('/', function(req, res) {
-	res.sendfile("public/index.htm")
-	//res.render('index.htm', { title: 'SNAME' });
-})
-
-
-app.get('/files', function(req, res) {
-	req.models.file.find({ /*name: "file1"*/ }, function (err, files) {
-		console.log("Files found: %d", files.length);
-		if (files.length>0)
-		{
-	        	console.log( 	"The 1st file is : %s", files[0].fullData() ) ;
-			var clientArray = [];
-			files.forEach(function(file)
-			{
-				clientArray.push(file.ToClientModel() );
-			});
-			jt = JSON.stringify(clientArray);
-			res.send ( jt );
-
-//	        files[0].subj = "0";
-//	        files[0].save( function (err) { console.log( err ); } );
-		}
-	});
-
-
-
-/*
-req.models.file.create([
-    {
-        filename: "file1",
-        description: "opisanie",
-        academicYear_id : 1,
-		semester_id: 1,
-		subject_id: 1,
-		type_id: 1		
-    }], function (err, items) {
-		console.log (err);
-	}
-);
-*/
-
-	//res.send('form worked ' );
-});
