@@ -1,24 +1,18 @@
-﻿<script id="navbarView">
+﻿<script id="navbarView">      
       <div class="navbar-inner">
-        <a class="brand" href="#">Файловый архив группы СВ</a>        
-          <div class="nav-collapse collapse">
-            <div class="span2">
-              <button type="button" class="btn btn-block btn-primary" data-toggle="collapse" data-target="#navigation_panel">
-              Навигация
-              </button>
-            </div>
-            <div class="span2">
-              <a href="#modal_file_upload" role="button" class="btn btn-block" data-toggle="modal">Загрузить файл</a>
-            </div>
-            <div class="span2">
-              <form class="navbar-search pull-left">
-                <input type="text" class="search-query" placeholder="Поиск">
-              </form>
-            </div>
-          </div>
-        <div class="container"></div><!--bad hack-->
+        <a class="brand" href="#">Файловый архив группы СВ</a>
+        <ul class="nav pull-left">
+          <li> <a href="#" data-toggle="collapse" data-target="#navigation_panel">Навигация</a></li>
+          <li><a href="#modal_file_upload" data-toggle="modal">Загрузить файл</a></li>
+        </ul>
+        <div class="span2">
+          <form class="navbar-search pull-left">
+            <input type="text" class="search-query" placeholder="Поиск">
+          </form>
+        </div>
+        <div class="container"></div>        <!--TODO: bad, bad hack, should be reworked-->
 <!--Panel with buttons-->
-        <div id="navigation_panel" class="navipanel">
+        <div id="navigation_panel" class="collapse">
           <div class="bs-docs-example">
             <select class="selectpicker span2" multiple title='Курс'>
               {{#academicYear}}<option>{{.}}</option>{{/academicYear}}
