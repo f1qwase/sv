@@ -57,7 +57,7 @@ app.use(orm.express( DbStr, {
 			        	var result = {}
 			        	clientFields.forEach(function(field)
 					{
-            					result[field] = ( SR[field]!=null ) ? SR[field].val || SR[field] : ' ';
+            					result[field] = ( SR[field]!=null ) ? SR[field].val || SR[field] : null;
 			        	});
         				return result;
 				}
@@ -140,9 +140,7 @@ app.get('/files', function(req, res) {
 	});
 
 
-/*
-jsonstingify для массива с данными из клиентмодел
-map.
+
 
 req.models.file.create([
     {
@@ -156,7 +154,7 @@ req.models.file.create([
 		console.log (err);
 	}
 );
-*/
+
 
 	//res.send('form worked ' );
 });
