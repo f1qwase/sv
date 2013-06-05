@@ -13,17 +13,24 @@ req.models.file.create([
 */
 
 exports.struct = function(req, res) {
-	var params = req.params.id;
-	var Klassif = ["academicYear", "semester", "subject", "type"]
-	
-//res.writeHead(200, {'Content-Type': 'text/plain'});
-
-//"type", "academicYear", "semester", "subject"
-	req.models[(params==null)?Klassif[0]:params].find({  }, function (err, SearchRes) {
-		res.send( SearchRes[0].val );
+	var async = require('async');
+	var params = (req.params.id == null)? [ "academicYear", "semester", "subject", "type"] :(req.params.id).split(",");
+	var Out = {};
+	async.forEachSeries(params, function(klassificator, callback) 
+	{ 
+		(req.models[klassificator]==null)? res.send ( JSON.stringify(null) ):req.models[klassificator].find({  }, function (err, SearchRes)
+		{
+			var ContArray=[];
+			SearchRes.forEach( function( KlasData )
+			{
+				ContArray.push( KlasData.val );
+			})
+			Out[klassificator] = ContArray;
+			callback();
+		});
+    }, function(err){
+		res.json( Out );
 	});
-//    res.write(" ok");
-//	res.end();
 }
 
 exports.files = function(req, res) {
