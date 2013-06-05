@@ -8,7 +8,7 @@ var File = Backbone.Model.extend({
 
 var FileView = Backbone.View.extend({
 	model: File,
-	template: Mustache.compile($("#fileTemplate").text()),
+	template: Mustache.compile($("#fileTpl").text()),
 	// initialize: function() {
 	// },
 	render: function() {
@@ -60,7 +60,6 @@ FilesCollectionView = Backbone.View.extend({
 
 
 
-
 $(function(){
 	$.Mustache.load('element_template.htm').done(function ( ) {
 		getStartFileList(function(data) {
@@ -76,16 +75,15 @@ $(function(){
 })
 
 var getStartNavbar = function(callback) {
-	$.get("dataNavbarStub.json", {}, callback)
+	$.get("structure", {}, callback)
 }
 
 $(function(){
 	$.Mustache.load('navbar_template.htm').done(function ( ) {
 		getStartNavbar(function(data) {
-			data.forEach(function(file) {
-				var navbarView = $.Mustache.render('navbarView', file)
-				$("#navbar_position").append(navbarView)
-			})
+			var navbarView = $.Mustache.render('navbarView', data)
+			console.log(navbarView, data)
+			$("#navbar_position").append(navbarView)
 			$(".alert").alert();
 			$('.selectpicker').selectpicker();
 		})
