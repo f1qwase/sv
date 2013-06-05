@@ -8,12 +8,13 @@ var File = Backbone.Model.extend({
 
 var FileView = Backbone.View.extend({
 	model: File,
-	template: "",
+	template: Mustache.compile($("#fileTemplate").text()),
 	// initialize: function() {
 	// },
 	render: function() {
-		console.log(this.model)
-		return JSON.stringify(this.model.toJSON())
+		// console.log(this.model, this.template)
+		// return JSON.stringify(this.model.toJSON())
+		return this.template(this.model.toJSON())
 	}
 })
 
@@ -50,14 +51,12 @@ FilesCollectionView = Backbone.View.extend({
 		return collectionView
 	},
 	onReset: function() {
-		console.log("asd", arguments)
 		console.log(this.render())
+		$("#accordion2").append(this.render())
 	}
 })
 
-var filesCollectionView = new FilesCollectionView({
-	collection: new FilesCollection()
-})
+
 
 
 
@@ -71,7 +70,9 @@ $(function(){
 			})
 		})
 	})
-	
+	var filesCollectionView = new FilesCollectionView({
+		collection: new FilesCollection()
+	})
 })
 
 var getStartNavbar = function(callback) {
