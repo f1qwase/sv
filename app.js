@@ -3,7 +3,7 @@ var fs = require("fs")
 var cnf = JSON.parse(fs.readFileSync("dbconf.json"))
 var DbStr = "mysql://" + cnf.lgn + ":" + cnf.ass + "@" + cnf.hst + "/" + cnf.dbn;
 
-var express = require('./express')
+var express = require('express')
 	, routes = require('./routes')
 	, api  = require('./routes/api')
 	, user = require('./routes/user')
