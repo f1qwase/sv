@@ -28,7 +28,6 @@ background: #D4D3D1;
     overflow: visible;
 } 
 
-
 .navipanel {
   padding-left: 30px;
   position: relative;
@@ -42,6 +41,14 @@ background: #D4D3D1;
 
 .well { /*if well changing will be needed*/
 background: #F6F4ED;
+}
+
+.fixed_tag_medium {
+    width: 100px !important;
+}
+
+.fixed_tag_large {
+    width: 150px !important;
 }
 
 /*.dl-horizontal

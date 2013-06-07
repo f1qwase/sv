@@ -15,18 +15,26 @@
 <!--Panel with buttons-->
         <div id="navigation_panel" class="collapse">
           <div class="bs-docs-example">
+            <a data-toggle="tooltip" title="Курс">
             <select class="selectpicker span2" multiple title='Курс'>
               {{#academicYear}}<option>{{.}}</option>{{/academicYear}}
             </select>
+            </a>
+            <a data-toggle="tooltip" title="Семестр">
             <select class="selectpicker span2" multiple title='Семестр'>
                 {{#semester}}<option>{{.}}</option>{{/semester}}
             </select>
+            <a>
+            <a data-toggle="tooltip" title="Предмет">
             <select class="selectpicker span2" multiple title='Предмет'>
                 {{#subject}}<option>{{.}}</option>{{/subject}}
             </select>
+            </a>
+            <a data-toggle="tooltip" title="Тип">
             <select class="selectpicker span2" multiple title='Тип'>
                 {{#type}}<option>{{.}}</option>{{/type}}
             </select>
+            </a>
           </div>
 <!--End of panel with buttons-->
         </div>

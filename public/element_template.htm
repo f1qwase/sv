@@ -1,19 +1,24 @@
 ﻿<script id="fileView">
       <div class="accordion-group well well-small">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{id}}">
+        <div class="row">
         <div class="accordion-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{id}}">
+          <div class="span5">
             <strong>{{filename}}</strong>
-          </a>
+          </div>
+          <!--tags for a file-->
+          <div class="span6">
+            <span class="label label-info fixed_tag_medium">Курс: {{academicYear}}</span>
+            <span class="label label-info fixed_tag_medium">Семестр: {{semester}}</span>
+            <span class="label label-info fixed_tag_large">Предмет: {{subject}}</span>
+            <span class="label label-info fixed_tag_large">Тип: {{type}}</span>
+          </div>
+          <!--end of tags for a file-->
+        </div>
+        </a>
         </div>
         <div id="collapse{{id}}" class="accordion-body collapse">
           <div class="accordion-inner">
-            <!--tags for a file-->
-            <span class="label label-info">Курс: {{academicYear}}</span>
-            <span class="label label-info">Семестр: {{semester}}</span>
-            <span class="label label-info">Предмет: {{subject}}</span>
-            <span class="label label-info">Тип: {{type}}</span>
-            </br>
-            <!--end of tags for a file-->
             <!--<dl class="dl-horizontal">
               <dt >Залил:</dt>
               <dd>{{uploader}}</dd>

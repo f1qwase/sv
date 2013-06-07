@@ -1,8 +1,8 @@
 [
 	{
 		"id":"id1",
-		"academicYear":1,
-		"semester":2,
+		"academicYear":"Первый",
+		"semester":"Второй",
 		"subject":"Физика",
 		"type": "Лекция",
 		
