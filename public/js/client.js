@@ -60,6 +60,8 @@ FilesCollectionView = Backbone.View.extend({
 
 
 
+
+
 $(function(){
 	$.Mustache.load('element_template.htm').done(function ( ) {
 		getStartFileList(function(data) {
@@ -86,6 +88,15 @@ $(function(){
 			$("#navbar_position").append(navbarView)
 			$(".alert").alert();
 			$('.selectpicker').selectpicker();
+
+			$(".navbar select").change(function(e) {
+				var tooltipText = $(this).siblings().find(".filter-option").text()
+				$(this).parent().attr("title", tooltipText)
+				// var selected = $(".navbar select :selected").map(function(item) {
+				// 	return $(this).text()
+				// }).toArray()
+				// console.log(selected)
+			})
 		})
 	})
 
