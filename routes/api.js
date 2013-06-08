@@ -34,6 +34,12 @@ exports.struct = function(req, res) {
 }
 
 exports.files = function(req, res) {
+var url  = require('url');
+var url_parts = url.parse(req.url, true);
+var query = url_parts.query;
+console.log ( query  );
+
+
 	req.models.file.find({ /*name: "file1"*/ }, function (err, files) {
 		console.log("Files found: %d", files.length);
 		if (files.length>0)
@@ -64,8 +70,8 @@ exports.structdata = function(req, res){
 			//;
 		});
 	}
-	res.sendfile("./public/test.htm")
+	res.sendfile( require('path').dirname(require.main.filename) +'/public/test.htm')
 }
 exports.structdatai = function(req, res) {
-	res.sendfile("./public/test.htm")
+	res.sendfile( require('path').dirname(require.main.filename) +'/public/test.htm')
 }

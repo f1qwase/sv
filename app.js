@@ -28,9 +28,9 @@ app.use( express.methodOverride() );
 //app.use(express.cookieParser(...));
 //app.use(express.session(...));
 app.use( express.static('public') );
-// app.use("/css/", express.static(path.join(__dirname, 'public/stylesheets')))
-// app.use("/js/", express.static(path.join(__dirname, 'public/javascripts')))
-// app.use("/views/", express.static(path.join(__dirname, 'public/views')))
+app.use("/css/", express.static(  __dirname + '/public/css/' ))
+app.use("/js/", express.static(  __dirname + '/public/js/' ))
+app.use("/", express.static(__dirname + '/public/' ))
 app.use(orm.express( DbStr, {
 	define: function (db, models) 
 	{
