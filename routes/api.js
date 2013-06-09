@@ -1,24 +1,41 @@
 var Filters = [ "academicYear", "semester", "subject", "type"];
 var async = require('async');
-
+var fs = require('fs');
 
 exports.fupl = function(req, res) {
-	req.models.file.create([
-    {
-        filename: "file1",
-        description: "opisanie",
-        academicYear_id : 1,
-		semester_id: 1,
-		subject_id: 1,
-		type_id: 1		
-    }], function (err, items) {
-		console.log (err);
-	})
+	var YandexDisk = require('yandex-disk').YandexDisk;
+	var disk = new YandexDisk('2ce613dbca6d4621a1a0750ea095c6bf');
+	var YdFName = Date.now() + req.files.data.name;
+	disk.uploadFile( req.files.data.path, YdFName, function(err) {
+		if (err)
+			res.send( ' Error file Adding ' );
+		disk.exists(YdFName, function(err, exists) {
+			(!exists)? res.send( err ):disk.publish(YdFName, function(err, link ) {
+				if (err)
+					res.send( ' Error file Adding ' );
+				disk.isPublic(YdFName, function(err, link) {
+					fs.unlink(req.files.data.path, function (err) { });
+/*
+					теперь можно писать в базу
+					req.models.file.create([
+				    {
+				        filename: "file1",
+				        description: "opisanie",
+				        academicYear_id : 1,
+						semester_id: 1,
+						subject_id: 1,
+						type_id: 1		
+				    }], function (err, items) {
+						console.log (err);
+					})
+*/
+					res.send( link );
+				});
+			});
+		});
+	});
+//disk.cd('/');пока нету;disk.readFile('dxwebsetup.exe', 'binary', function(err, c) {res.setHeader('Content-disposition', 'attachment; filename=dxwebsetup.exe');res.write(c, 'binary');res.end();});
 }
-
-
-
-
 
 exports.struct = function(req, res) {
 	var params = (req.params.id == null)? Filters :(req.params.id).split(",");
@@ -53,8 +70,24 @@ exports.files = function(req, res) {
 				res.send( null );
 				return;
 			}
-			jt = JSON.stringify(files.map(function(item) {return item.ToClientModel()}));
-			res.send ( jt );
+			var ss = query['ss'];
+			var resArr = files.map(function(item) {return item.ToClientModel()});
+			if(ss)
+			{
+				var SRArr = [], isfind = 0;
+				resArr.forEach( function( val )
+				{
+					Object.keys(val).forEach( function ( v ){
+						if((val[v]) && (val[v].toString().toLowerCase().indexOf(ss.toLowerCase()) + 1)) 
+							isfind++
+					})
+					if( isfind )
+						SRArr.push( val )
+					isfind = 0;
+				})
+				res.send( JSON.stringify(SRArr) );
+			}
+			res.send( JSON.stringify(resArr) );
 		});
 	});
 }
