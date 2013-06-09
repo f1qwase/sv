@@ -1,5 +1,9 @@
-/*
-req.models.file.create([
+var Filters = [ "academicYear", "semester", "subject", "type"];
+var async = require('async');
+
+
+exports.fupl = function(req, res) {
+	req.models.file.create([
     {
         filename: "file1",
         description: "opisanie",
@@ -9,23 +13,21 @@ req.models.file.create([
 		type_id: 1		
     }], function (err, items) {
 		console.log (err);
-	}
-*/
+	})
+}
+
+
+
+
 
 exports.struct = function(req, res) {
-	var async = require('async');
-	var params = (req.params.id == null)? [ "academicYear", "semester", "subject", "type"] :(req.params.id).split(",");
+	var params = (req.params.id == null)? Filters :(req.params.id).split(",");
 	var Out = {};
 	async.forEachSeries(params, function(klassificator, callback) 
 	{ 
 		(req.models[klassificator]==null)? res.send ( JSON.stringify(null) ):req.models[klassificator].find({  }, function (err, SearchRes)
 		{
-			var ContArray=[];
-			SearchRes.forEach( function( KlasData )
-			{
-				ContArray.push( KlasData.val );
-			})
-			Out[klassificator] = ContArray;
+			Out[klassificator] = SearchRes.map(function(item) {return item.val})
 			callback();
 		});
     }, function(err){
@@ -34,30 +36,27 @@ exports.struct = function(req, res) {
 }
 
 exports.files = function(req, res) {
-var url  = require('url');
-var url_parts = url.parse(req.url, true);
-var query = url_parts.query;
-console.log ( query  );
-
-
-	req.models.file.find({ /*name: "file1"*/ }, function (err, files) {
-		console.log("Files found: %d", files.length);
-		if (files.length>0)
+	var query = require('url').parse(req.url, true).query;
+	var Q = {};
+	async.forEachSeries(Filters, function( flt, callback ) 
+	{
+		(query[flt] == null)? callback() :  req.models[flt].find( { val : query[flt].toString().split(",") } , function (err, t_r ) 
 		{
-        	console.log( 	"The 1st file is : %s", files[0].fullData() ) ;
-			var clientArray = [];
-			files.forEach(function(file)
+			Q[flt + '_id'] = t_r.map(function(item) {return item.id});
+			callback();
+		})
+	}, function( err ){
+		Q["isdel"] =  [ 0 ];
+		req.models.file.find( Q , function (err, files) {
+			if (( err )|| (!files))
 			{
-				clientArray.push(file.ToClientModel() );
-			});
-			jt = JSON.stringify(clientArray);
+				res.send( null );
+				return;
+			}
+			jt = JSON.stringify(files.map(function(item) {return item.ToClientModel()}));
 			res.send ( jt );
-
-	        files[0].subj = "0";
-	        files[0].save( function (err) { console.log( err ); } );
-		}
-	})
-	//res.send('form worked ' );
+		});
+	});
 }
 
 exports.structdata = function(req, res){
