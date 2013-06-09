@@ -23,12 +23,7 @@ exports.struct = function(req, res) {
 	{ 
 		(req.models[klassificator]==null)? res.send ( JSON.stringify(null) ):req.models[klassificator].find({  }, function (err, SearchRes)
 		{
-			var ContArray=[];
-			SearchRes.forEach( function( KlasData )
-			{
-				ContArray.push( KlasData.val );
-			})
-			Out[klassificator] = ContArray;
+			Out[klassificator] = SearchRes.map(function(item) {return item.val})
 			callback();
 		});
     }, function(err){
@@ -43,12 +38,7 @@ exports.files = function(req, res) {
 	{
 		(query[flt] == null)? callback() :  req.models[flt].find( { val : query[flt].toString().split(",") } , function (err, t_r ) 
 		{
-			var tmp =[];
-			t_r.forEach(function(tt)
-			{
-				tmp.push( tt.id );
-			});
-			Q[flt + '_id'] = tmp;
+			Q[flt + '_id'] = t_r.map(function(item) {return item.id});
 			callback();
 		})
 	}, function( err ){
@@ -59,12 +49,7 @@ exports.files = function(req, res) {
 				res.send( null );
 				return;
 			}
-			var clientArray = [];
-			files.forEach(function(file)
-			{
-				clientArray.push(file.ToClientModel() );
-			});
-			jt = JSON.stringify(clientArray);
+			jt = JSON.stringify(files.map(function(item) {return item.ToClientModel()}));
 			res.send ( jt );
 		});
 	});
