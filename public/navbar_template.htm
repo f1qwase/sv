@@ -1,12 +1,12 @@
 ﻿<script id="navbarView">
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
-        <a class="brand" href="#">Файловый архив группы СВ</a>
-        <ul class="nav pull-left">
+        <!-- <a class="brand" href="#">Файловый архив группы СВ</a>-->
+        <ul class="nav pull-right">
           <li><a href="javascript:;" data-toggle="collapse" data-target="#navigation_panel">Навигация</a></li>
           <li><a href="#modal_file_upload" data-toggle="modal">Загрузить файл</a></li>
         </ul>
-        <div class="span4">
+        <div class="span8">
             <form action="#">
               <fieldset>
                   <div class="clearfix">
@@ -21,7 +21,7 @@
         <div class="container"></div>        <!--TODO: bad, bad hack, should be reworked-->
 <!--Panel with buttons-->
         <div id="navigation_panel" class="collapse">
-          <div class="bs-docs-example">
+          <div class="bs-docs-example span8">
             <a data-toggle="tooltip" title="Курс">
             <select class="selectpicker span2" multiple title='Курс'>
               {{#academicYear}}<option>{{.}}</option>{{/academicYear}}
@@ -43,8 +43,8 @@
             </select>
             </a>
           </div>
-<!--End of panel with buttons-->
         </div>
+<!--End of panel with buttons-->
       </div>
     </div>
   </div>
