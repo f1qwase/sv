@@ -1,5 +1,9 @@
-/*
-req.models.file.create([
+var Filters = [ "academicYear", "semester", "subject", "type"];
+var async = require('async');
+
+
+exports.fupl = function(req, res) {
+	req.models.file.create([
     {
         filename: "file1",
         description: "opisanie",
@@ -9,11 +13,11 @@ req.models.file.create([
 		type_id: 1		
     }], function (err, items) {
 		console.log (err);
-	}
-*/
+	})
+}
 
-var Filters = [ "academicYear", "semester", "subject", "type"];
-var async = require('async');
+
+
 
 
 exports.struct = function(req, res) {
@@ -42,7 +46,7 @@ exports.files = function(req, res) {
 			callback();
 		})
 	}, function( err ){
-		console.log( Q );
+		Q["isdel"] =  [ 0 ];
 		req.models.file.find( Q , function (err, files) {
 			if (( err )|| (!files))
 			{
@@ -53,28 +57,6 @@ exports.files = function(req, res) {
 			res.send ( jt );
 		});
 	});
-
-
-
-/*
-	req.models.file.find({  }, function (err, files) {  //name: "file1"
-		console.log("Files found: %d", files.length);
-		if (files.length>0)
-		{
-        	console.log( 	"The 1st file is : %s", files[0].fullData() ) ;
-			var clientArray = [];
-			files.forEach(function(file)
-			{
-				clientArray.push(file.ToClientModel() );
-			});
-			jt = JSON.stringify(clientArray);
-			res.send ( jt );
-//	        files[0].subj = "0";
-//	        files[0].save( function (err) { console.log( err ); } );
-		}
-	})
-	//res.send('form worked ' );
-*/
 }
 
 exports.structdata = function(req, res){
