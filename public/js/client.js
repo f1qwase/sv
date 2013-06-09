@@ -6,6 +6,9 @@ $(document).bind("ajaxError", function(event, response, request) {
 		case 503:
 			alert("авторизуйтесь, будьте добры")
 			break
+		case 404:
+			alert("блин, 404 при запросе по адресу " + request.url)
+			break
 	}
 })
 
@@ -70,16 +73,13 @@ $(function(){
 			$("#navbar_position").append(navbarView)
 			$(".alert").alert();
 			$('.selectpicker').selectpicker();
-			var searchString = $("#search-string")
 
-			$(".navbar select").change(function(e) {
+			var searchString = $("#search-string")
+			$(".navbar select").change(function(e) { //change tooltip
 				var tooltipText = $(this).siblings().find(".filter-option").text()
 				$(this).parent().attr("title", tooltipText)
-				// var selected = $(".navbar select :selected").map(function(item) {
-				// 	return $(this).text()
-				// }).toArray()
-				// console.log(selected)
 			})
+
 			$(".navbar select").change(function(e) {
 				var key = this.title
 				var options = $(this).find("option") 
@@ -99,7 +99,19 @@ $(function(){
 					searchString.tagit("removeTagByLabel", searchFormat(key, value))
 				})
 			})
+			deleteFile = function(id) {
+				$.ajax({
+					url: '/files/' + id,
+					type: 'DELETE',
+					success: searchString.go
+				})
+			}
 
+			searchString.go = function() {
+				$.getJSON("/files", searchString.asGetParams(), function(data) {
+					filesView.reload(data)
+				})
+			}
 			searchString.tagit({
 				allowSpaces: true,
 				hello: "asd",
@@ -112,14 +124,10 @@ $(function(){
 						$('.selectpicker').selectpicker('refresh');
 					}
 
-					$.getJSON("/files", searchString.asGetParams(), function(data) {
-						filesView.reload(data)
-					})
+					searchString.go()
 				},
 				afterTagAdded: function(e, ui) {
-					$.getJSON("/files", searchString.asGetParams(), function(data) {
-						filesView.reload(data)
-					})
+					searchString.go()
 				}
 			})
 			searchString.asGetParams = function() {
@@ -140,16 +148,12 @@ $(function(){
 					parameters[tagsKeyValuePair.key].push(tagsKeyValuePair.value)
 
 				})
-				// console.log(parameters)
-				// console.log(searchString)
 				var getParameters = {}
 				for (var key in parameters) {
 					getParameters[dictionary[key]] = parameters[key].join(",")
 				}
 				return getParameters
 			}
-
-
 		})
 	})
 })

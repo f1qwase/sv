@@ -30,7 +30,7 @@
             <p><strong>Дата:&#x0020;</strong>{{uploadDate}}</p>
             <p id ="file_description">{{description}}</p>
             <a class="btn btn-primary" href="{{link}}">Скачать</a>
-            <a class="btn btn-danger" href="#modal_file_deleting" data-toggle="modal">Удалить</a>
+            <a class="btn btn-danger" onclick="deleteFile({{id}})" data-toggle="modal">Удалить</a>
             </p>
             <div id="vk_comments_{{id}}"></div> <!--should be unique for every block-->
             <script type="text/javascript">
