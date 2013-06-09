@@ -7,7 +7,7 @@ var searchFormat = function(key, value) {
 }
 var searchDeformat = function(string) {
 	var arr = string.split(":")
-	if (arr.length = 2) {
+	if (arr.length == 2) {
 		return {
 			key: arr[0],
 			value: arr[1]
@@ -15,30 +15,38 @@ var searchDeformat = function(string) {
 	}
 }
 
+var FilesView = function(params) {
+	$.extend(this, params)
+}
+FilesView.prototype = {
+	render: function(file) {
+		return $.Mustache.render('fileView', file)
+	},
+	add: function(file) {
+		this.view.append(this.render(file))
+	},
+	reload: function(files) {
+		var that = this
+		this.view.empty()
+		if (files.length == 0) {
+			this.view.append("нету ничего")
+		}
+		else {
+			files.forEach(function(file) {
+				that.add(file)
+			})
+		}
+	}
+}
+
+// var query = function
+
 $(function() {
 
 	$.Mustache.load('element_template.htm').done(function ( ) {
-		filesView = {
-			render: function(file) {
-				return $.Mustache.render('fileView', file)
-			},
-			view: $("#accordion2"),
-			add: function(file) {
-				this.view.append(this.render(file))
-			},
-			reload: function(files) {
-				var that = this
-				this.view.empty()
-				if (files.length == 0) {
-					this.view.append("нету ничего")
-				}
-				else {
-					files.forEach(function(file) {
-						that.add(file)
-					})
-				}
-			}
-		}
+		filesView = new FilesView({
+			view: $("#accordion2")
+		})
 		getStartFileList(function(fileList) {
 			filesView.reload(fileList)
 		})
@@ -110,16 +118,18 @@ $(function(){
 					"Курс": "academicYear",
 					"Семестр": "semester",
 					"Предмет": "subject",
-					"Тип": "type"
+					"Тип": "type",
+					"ss": "ss"
 				}
 				var parameters = {}
 				var tags = searchString.tagit("assignedTags").forEach(function(param) {
 					var tagsKeyValuePair = searchDeformat(param)
 					if (!tagsKeyValuePair) {
 						tagsKeyValuePair = {key: "ss", value: param}
-					} 
+					}
 					parameters[tagsKeyValuePair.key] = parameters[tagsKeyValuePair.key] || []
 					parameters[tagsKeyValuePair.key].push(tagsKeyValuePair.value)
+
 				})
 				// console.log(parameters)
 				// console.log(searchString)
