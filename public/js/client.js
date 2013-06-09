@@ -1,3 +1,15 @@
+$(document).bind("ajaxError", function(event, response, request) {
+	switch (response.status) {
+		case 500:
+			alert("опять сервак отвалился!")
+			break
+		case 503:
+			alert("авторизуйтесь, будьте добры")
+			break
+	}
+})
+
+
 var getStartFileList = function(callback) {
 	$.getJSON("/files", {}, callback)
 }
@@ -39,10 +51,7 @@ FilesView.prototype = {
 	}
 }
 
-// var query = function
-
 $(function() {
-
 	$.Mustache.load('element_template.htm').done(function ( ) {
 		filesView = new FilesView({
 			view: $("#accordion2")
