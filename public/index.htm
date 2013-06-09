@@ -6,152 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+
 <!--CSS styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap_edited.css" rel="stylesheet">    
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-select.css">
-
+    <link rel="stylesheet" type="text/css" media="screen" href="css/flick/jquery-ui-1.10.3.custom.min.css ">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.tagit.css ">
 <!-- templates -->
-    <script type="text/template" id="fileTpl">
-        <div class="accordion-group well well-small">
-        <div class="accordion-heading">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{id}}">
-                <strong>{{filename}}</strong>
-            </a>
-        </div>
-        <div id="collapse{{id}}" class="accordion-body collapse">
-            <div class="accordion-inner">
-                <!--tags for a file-->
-                <span class="label label-info">Курс: {{academicYear}}</span>
-                <span class="label label-info">Семестр: {{semester}}</span>
-                <span class="label label-info">Предмет: {{subject}}</span>
-                <span class="label label-info">Тип: {{type}}</span>
-                </br>
-                <!--end of tags for a file-->
-                <!--<dl class="dl-horizontal">
-                    <dt >Залил:</dt>
-                    <dd>{{uploader}}</dd>
-                    <dt>Дата:</dt>
-                    <dd>{{uploadDate}}</dd>
-                </dl>-->
-                </br>
-                <p><strong>Залил:&#x0020;</strong>{{uploader}}</p><!--TODO: hack, need to be reworked-->
-                <p><strong>Дата:&#x0020;</strong>{{uploadDate}}</p>
-                <p id ="file_description">{{description}}</p>
-                <a class="btn btn-primary" href="{{link}}">Скачать</a>
-                <a class="btn btn-danger" href="#modal_file_deleting" data-toggle="modal">Удалить</a>
-                    </p>
-                    <div id="vk_comments_{{id}}"></div> <!--should be unique for every block-->
-                    <script type="text/javascript">
-                        VK.Widgets.Comments("vk_comments_{{id}}", {limit: 10, width: "800", attach: "*"});
-                    </sc{{}}ript>
-                </div>
-            </div>
-        </div>
-    </script>
 
-    <script id="navbarTpl" type="text/template">
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <a class="brand" href="#">Файловый архив группы СВ</a>
-                <ul class="nav pull-left">
-                    <li><a href="javascript:;" data-toggle="collapse" data-target="#navigation_panel">Навигация</a></li>
-                    <li><a href="#modal_file_upload" data-toggle="modal">Загрузить файл</a></li>
-                </ul>
-                <div class="span2">
-                    <form class="navbar-search pull-left">
-                        <input type="text" class="search-query" placeholder="Поиск">
-                    </form>
-                </div>
-                <div class="container"></div>        <!--TODO: bad, bad hack, should be reworked-->
-    <!--Panel with buttons-->
-                    <div id="navigation_panel" class="collapse">
-                        <div class="bs-docs-example">
-                        <select class="selectpicker span2" multiple title='Курс'>
-                            {{#academicYear}}<option>{{.}}</option>{{/academicYear}}
-                        </select>
-                        <select class="selectpicker span2" multiple title='Семестр'>
-                            {{#semester}}<option>{{.}}</option>{{/semester}}
-                        </select>
-                        <select class="selectpicker span2" multiple title='Предмет'>
-                            {{#subject}}<option>{{.}}</option>{{/subject}}
-                        </select>
-                        <select class="selectpicker span2" multiple title='Тип'>
-                            {{#type}}<option>{{.}}</option>{{/type}}
-                        </select>
-                      </div>
-    <!--End of panel with buttons-->
-                    </div>
-                </div>
-            </div>
-        </div>
-    <!--End of navbar-->
-    <!--Modal window for file uploading dialog-->
-        <div id="modal_file_upload" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel">Загрузить файл</h3>
-            </div>
-            <div class="modal-body">
-                <label>Файл</label>
-                <div class="input-append input-block-level">
-                    <input class="span4" id="appendedInputButton" type="text" placeholder="загрузите файл с диска либо вставьте url">
-                    <button class="btn" type="button">Выбрать</button>
-                </div>
-                <form>
-                    <fieldset>
-                        <label>Название</label>
-                        <input class="input-block-level" type="text">
-                    </fieldset>
-                </form>
-                <label>Аттрибуты файла</label>
-                <select class="selectpicker span2" multiple title='Курс'>
-                    {{#academicYear}}<option>{{.}}</option>{{/academicYear}}
-                </select>
-                <select class="selectpicker span2" multiple title='Семестр'>
-                    {{#semester}}<option>{{.}}</option>{{/semester}}
-                </select>
-                <select class="selectpicker span2" multiple title='Предмет'>
-                    {{#subject}}<option>{{.}}</option>{{/subject}}
-                </select>
-                <select class="selectpicker span2" multiple title='Тип'>
-                    {{#type}}<option>{{.}}</option>{{/type}}
-                </select>
-                <label>Описание</label>
-                <textarea class="input-block-level" rows="5"></textarea>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">Закрыть</button>
-                <button class="btn btn-primary">Применить</button>
-            </div>
-        </div>
-    <!--End of modal window for file uploading-->
-      <!--Delete file dialog-->
-        <div id="modal_file_deleting" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">      
-            <div class="modal-body">
-                <center>
-                    <strong>Вы действительно хотите удалить этот файл?</strong>
-                </center>
-                <p>
-                    <center>
-                        <button class="btn btn-primary">Да</button>
-                        <button class="btn" data-dismiss="modal" aria-hidden="true">Нет</button>
-                    </center>
-                </p>
-            </div>
-        </div>
-    <!--End of deleting dialog-->
-    </script>
 
 <!--Scripts -->
     <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
     <script type="text/javascript" src="js/bootstrap-select.js"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
     <script type="text/javascript" src="js/jquery.mustache-0.2.7.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script type="text/javascript" src="js/tagit.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/client.js"></script>
 
 
