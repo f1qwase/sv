@@ -2,61 +2,18 @@ var getStartFileList = function(callback) {
 	$.getJSON("/files/", {}, callback)
 }
 
-
-//{view(jQuery set)}
-// var SearchString = function(view) {
-// 	this.view = view
-// 	this.getText = function() {
-// 		return this.view.val()
-// 	}
-// 	this.setText = function(value) {
-// 		this.view.val(value)
-// 		return this
-// 	}
-// 	this.addText = function(value) {
-// 		var oldText = this.getText()
-// 		var newText = (oldText == "") ? value : oldText + ", " + value
-// 		this.setText(newText)
-// 	}
-// 	this.isSet = function(key, value) {
-// 		var isSetRegexp =  new RegExp(key + ": ?" + value)
-// 		return isSetRegexp.test(this.getText())
-// 	}
-// 	this.onDublicate = function(value) {
-// 		console.log("dublicate(" + value + ")")
-// 	}
-// 	this.add = function(key, value) {
-// 		if (!this.isSet(key, value)) {
-// 			this.addText(key + ": " + value)
-// 		}
-// 		else {
-// 			this.onDublicate(key + ": " + value)
-// 		}
-// 	}
-// }
-
-// SearchString.prototype = {
-// 	init: function() {
-// 		this.view.change(function(e) {
-
-// 		})
-// 	},
-// 	render: function() {
-// 		this.params.forEach(function(param))
-// 	},
-// 	change: function() {
-// 		this.view.text(this.render())
-// 	},
-// 	add: function(key, value) {
-// 		var _key = this.params[key] || []
-// 		if (inArray(_key, value) {
-// 			_key.push(value)
-// 		}
-// 		this.change()		
-// 	},
-// 	translate: function() {}
-
-// }
+var searchFormat = function(key, value) {
+	return key + ":" + value
+}
+var searchDeformat = function(string) {
+	var arr = string.split(":")
+	if (arr.length = 2) {
+		return {
+			key: arr[0],
+			value: arr[1]
+		}
+	}
+}
 
 $(function(){
 	$.Mustache.load('element_template.htm').done(function ( ) {
@@ -77,6 +34,7 @@ $(function(){
 			$("#navbar_position").append(navbarView)
 			$(".alert").alert();
 			$('.selectpicker').selectpicker();
+			var searchString = $("#search-string")
 
 			$(".navbar select").change(function(e) {
 				var tooltipText = $(this).siblings().find(".filter-option").text()
@@ -86,7 +44,44 @@ $(function(){
 				// }).toArray()
 				// console.log(selected)
 			})
-			$("#search-string").tagit()
+			$(".navbar select").change(function(e) {
+				var key = this.title
+				var options = $(this).find("option") 
+				var selected = options.filter(":selected").toArray().map(function(option) {
+					return $(option).val()
+				})
+				var notSelected = options.not(":selected").toArray().map(function(option) {
+					return $(option).val()
+				})
+				existedTags = searchString.tagit("assignedTags")
+				selected.forEach(function(value) {
+					searchString.tagit("createTag", searchFormat(key, value))
+				})
+				console.log(notSelected, existedTags)
+				notSelected.filter(function(value) {
+					return existedTags.indexOf(searchFormat(key, value)) != -1
+				}).forEach(function(value) {
+					console.log("rm " + value)
+					searchString.tagit("removeTagByLabel", searchFormat(key, value))
+				})
+			})
+
+			searchString.tagit({
+				allowSpaces: true,
+				caseSensitive: false,
+				placeholderText: "Поиск",
+				afterTagRemoved: function(e, ui) {
+					var deletedTag = searchDeformat(ui.tagLabel)
+					if (deletedTag) {
+						console.log(deletedTag)
+						console.log($(".navbar select[title='" + deletedTag.key + "'] option:contains('" + deletedTag.value + "')"))
+						$(".navbar select[title='" + deletedTag.key + "'] option:contains('" + deletedTag.value + "')").removeAttr("selected")
+						$('.selectpicker').selectpicker('refresh');
+					}
+				}
+			})
+
+
 		})
 	})
 })
