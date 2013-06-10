@@ -2,6 +2,8 @@ var Filters = [ "academicYear", "semester", "subject", "type"];
 var async = require('async');
 var fs = require('fs');
 var path = require('path')
+var dateFormat = require('dateformat');
+
 
 exports.fupl = function(req, res) {
 	var YandexDisk = require('yandex-disk').YandexDisk;
@@ -112,16 +114,25 @@ exports.structdatai = function(req, res) {
 /*
  * GET all files from views folder
  */
-
 exports.templates = function(req, res){
 	var dir = path.dirname(require.main.filename) +'/views'
 	fs.readdir(dir, function(err, files) {
 		files.forEach(function(file) {
-			var id = path.basename(file, ".html")
-			res.write('<script type="text/template" id="' + id + '">\n')
+			res.write('<script type="text/template" id="' + path.basename(file, ".html") + '">\n')
 			res.write(fs.readFileSync(dir + "/" + file))
 			res.write('</script>\n')
 		})
 		res.end()
+	})
+}
+
+/* delete file npm install dateformat */
+exports.fdel = function(req, res){
+	req.models.file.find( { 'id' : req.params.id } , 1, function (err, files) {
+		files[0].isdel = 1;
+		files[0].ddate = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
+		files[0].save(function (err) {
+            res.send( err );
+        });		
 	})
 }
