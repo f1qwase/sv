@@ -168,19 +168,20 @@ SearchString.prototype = {
 	}
 }
 
-$(function() {
-	$.Mustache.load('element_template.htm').done(function ( ) {
-		filesView = new FilesView({
-			view: $("#accordion2")
-		})
-		filesView.reload({})
-	})
-})
+// $(function() {
+// 	$.Mustache.load('element_template.htm').done(function ( ) {
+
+// 	})
+// })
 
 
 $(function(){
-	$.Mustache.load('navbar_template.htm').done(function ( ) {
+	$.Mustache.load('/templates').done(function ( ) {
 		$.getJSON("/structure/", function(data) {
+			filesView = new FilesView({
+				view: $("#accordion2")
+			})
+			filesView.reload({})
 			$("#navbar_position").append($.Mustache.render('navbarView', data))
 			$(".alert").alert();
 

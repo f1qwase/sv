@@ -6,7 +6,6 @@ var DbStr = "mysql://" + cnf.lgn + ":" + cnf.ass + "@" + cnf.hst + "/" + cnf.dbn
 var express = require('express')
 	, routes = require('./routes')
 	, api  = require('./routes/api')
-	, user = require('./routes/user')
 	, http = require('http')
 	, path = require('path')
 	, cons = require('consolidate')
@@ -27,10 +26,10 @@ app.use( express.bodyParser() );
 app.use( express.methodOverride() );
 //app.use(express.cookieParser(...));
 //app.use(express.session(...));
-app.use( express.static('public') );
-app.use("/css/", express.static(  __dirname + '/public/css/' ))
-app.use("/js/", express.static(  __dirname + '/public/js/' ))
-app.use("/", express.static(__dirname + '/public/' ))
+app.use( express.static(__dirname + '/public') );
+// app.use("/css/", express.static(  __dirname + '/public/css/' ))
+// app.use("/js/", express.static(  __dirname + '/public/js/' ))
+// app.use("/", express.static(__dirname + '/public/' ))
 app.use(orm.express( DbStr, {
 	define: function (db, models) 
 	{
@@ -99,6 +98,7 @@ app.get( '/structure/:id?', api.struct );
 app.get( '/', routes.index );
 app.post('/filterdata', api.structdata);
 app.post('/fupl', api.fupl);
+app.get('/templates', api.templates)
 
 /* SERVER START */
 app.listen(app.get('port'), function() {console.log("Listening on " + app.get('port'))});

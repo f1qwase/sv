@@ -1,0 +1,40 @@
+﻿<div class="accordion-group well well-small">
+  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{id}}">
+  <div class="row">
+  <div class="accordion-heading">
+    <div class="span5">
+      <strong>{{filename}}</strong>
+    </div>
+    <!--tags for a file-->
+    <div class="span6">
+      <span class="label label-info fixed_tag_medium">{{academicYear}} курс</span>
+      <span class="label label-info fixed_tag_medium">{{semester}} семестр</span>
+      <span class="label label-info fixed_tag_large">{{subject}}</span>
+      <span class="label label-info fixed_tag_large">{{type}}</span>
+    </div>
+    <!--end of tags for a file-->
+  </div>
+  </a>
+  </div>
+  <div id="collapse{{id}}" class="accordion-body collapse">
+    <div class="accordion-inner">
+      <!--<dl class="dl-horizontal">
+        <dt >Залил:</dt>
+        <dd>{{uploader}}</dd>
+        <dt>Дата:</dt>
+        <dd>{{uploadDate}}</dd>
+      </dl>-->
+      </br>
+      <p><strong>Залил:&#x0020;</strong>{{uploader}}</p><!--TODO: hack, need to be reworked-->
+      <p><strong>Дата:&#x0020;</strong>{{uploadDate}}</p>
+      <p id ="file_description">{{description}}</p>
+      <a class="btn btn-primary" href="{{link}}">Скачать</a>
+      <a class="btn btn-danger" onclick="deleteFile({{id}})" data-toggle="modal">Удалить</a>
+      </p>
+      <div id="vk_comments_{{id}}"></div> <!--should be unique for every block-->
+      <script type="text/javascript">
+      VK.Widgets.Comments("vk_comments_{{id}}", {limit: 10, width: "800", attach: "*"});
+      </script>
+    </div>
+  </div>
+</div>

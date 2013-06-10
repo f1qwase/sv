@@ -1,6 +1,7 @@
 var Filters = [ "academicYear", "semester", "subject", "type"];
 var async = require('async');
 var fs = require('fs');
+var path = require('path')
 
 exports.fupl = function(req, res) {
 	var YandexDisk = require('yandex-disk').YandexDisk;
@@ -106,4 +107,21 @@ exports.structdata = function(req, res){
 }
 exports.structdatai = function(req, res) {
 	res.sendfile( require('path').dirname(require.main.filename) +'/public/test.htm')
+}
+
+/*
+ * GET all files from views folder
+ */
+
+exports.templates = function(req, res){
+	var dir = path.dirname(require.main.filename) +'/views'
+	fs.readdir(dir, function(err, files) {
+		files.forEach(function(file) {
+			var id = path.basename(file, ".html")
+			res.write('<script type="text/template" id="' + id + '">\n')
+			res.write(fs.readFileSync(dir + "/" + file))
+			res.write('</script>\n')
+		})
+		res.end()
+	})
 }
