@@ -8,6 +8,15 @@ var dateFormat = require('dateformat');
 exports.fupl = function(req, res) {
 	var YandexDisk = require('yandex-disk').YandexDisk;
 	var disk = new YandexDisk('2ce613dbca6d4621a1a0750ea095c6bf');
+
+console.log( req.body );
+console.log(clientFields);
+Out= clientFields.map(function(item) { return req.body[item]})
+console.log(req.body.description);
+console.log ( Out );
+res.send('xx');
+
+/*
 	var YdFName = Date.now() + req.files.data.name;
 	disk.uploadFile( req.files.data.path, YdFName, function(err) {
 		if (err)
@@ -18,7 +27,7 @@ exports.fupl = function(req, res) {
 					res.send( ' Error file Adding ' );
 				disk.isPublic(YdFName, function(err, link) {
 					fs.unlink(req.files.data.path, function (err) { });
-/*
+//
 					теперь можно писать в базу
 					req.models.file.create([
 				    {
@@ -31,12 +40,13 @@ exports.fupl = function(req, res) {
 				    }], function (err, items) {
 						console.log (err);
 					})
-*/
+//
 					res.send( link );
 				});
 			});
 		});
 	});
+*/
 //disk.cd('/');пока нету;disk.readFile('dxwebsetup.exe', 'binary', function(err, c) {res.setHeader('Content-disposition', 'attachment; filename=dxwebsetup.exe');res.write(c, 'binary');res.end();});
 }
 
