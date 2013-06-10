@@ -137,6 +137,7 @@ SearchString.prototype = {
 			caseSensitive: false,
 			placeholderText: "Поиск",
 			singleFieldDelimiter: "\t"
+			// autocomplete: { source: [ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby" ] }
 		})
 	},
 	go: function() {
