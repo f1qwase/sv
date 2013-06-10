@@ -4,49 +4,44 @@ var fs = require('fs');
 var path = require('path')
 var dateFormat = require('dateformat');
 
-
 exports.fupl = function(req, res) {
 	var YandexDisk = require('yandex-disk').YandexDisk;
 	var disk = new YandexDisk('2ce613dbca6d4621a1a0750ea095c6bf');
-
-console.log( req.body );
-console.log(clientFields);
-Out= clientFields.map(function(item) { return req.body[item]})
-console.log(req.body.description);
-console.log ( Out );
-res.send('xx');
-
-/*
-	var YdFName = Date.now() + req.files.data.name;
-	disk.uploadFile( req.files.data.path, YdFName, function(err) {
-		if (err)
-			res.send( ' Error file Adding ' );
-		disk.exists(YdFName, function(err, exists) {
-			(!exists)? res.send( err ):disk.publish(YdFName, function(err, link ) {
-				if (err)
-					res.send( ' Error file Adding ' );
-				disk.isPublic(YdFName, function(err, link) {
-					fs.unlink(req.files.data.path, function (err) { });
-//
-					теперь можно писать в базу
-					req.models.file.create([
-				    {
-				        filename: "file1",
-				        description: "opisanie",
-				        academicYear_id : 1,
-						semester_id: 1,
-						subject_id: 1,
-						type_id: 1		
-				    }], function (err, items) {
-						console.log (err);
-					})
-//
-					res.send( link );
+	Out = {};
+	Out['uploader'] = 'Гость';
+	Out['uploadDate'] = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
+	Out['isdel'] = 0;
+	async.forEachSeries(Filters, function( flt, callback ) 
+	{
+		(req.body[flt] == null)? res.send(400, "Form not true filled") /* console.log('xxx') callback()  вываливаемся в 6 */:  req.models[flt].find( { val : req.body[flt].toString().split(",") } , function (err, t_r ) 
+		{
+			Out[flt + '_id'] = t_r[0].id;
+			callback();
+		})
+	},function( err ){
+		Out["filename"] = req.body['filename'];
+		Out["description"] = req.body['description'];
+		var YdFName = Date.now() + req.body.file[0].basename;
+		var uplfpath = require('path').dirname(require.main.filename) +'/public/tupl/' + req.body.file[0].path + req.body.file[0].basename;
+		disk.uploadFile( uplfpath, YdFName, function(err) {
+			if (err)
+				res.send(400, "Error adding file - upload");
+			disk.exists(YdFName, function(err, exists) {
+				(!exists)? res.send( err ):disk.publish(YdFName, function(err, link ) {
+					if (err)
+						res.send(400, "Error adding file - publish");
+					disk.isPublic(YdFName, function(err, link) {
+						fs.unlink(uplfpath, function (err) {  });
+						Out['link'] = link;
+						req.models.file.create([Out], function (err, items) {
+							res.send(400, "DB write err");
+						})
+						res.send( 200, "" );
+					});
 				});
 			});
 		});
-	});
-*/
+	})
 //disk.cd('/');пока нету;disk.readFile('dxwebsetup.exe', 'binary', function(err, c) {res.setHeader('Content-disposition', 'attachment; filename=dxwebsetup.exe');res.write(c, 'binary');res.end();});
 }
 
