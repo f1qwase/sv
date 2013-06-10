@@ -9,7 +9,8 @@ var express = require('express')
 	, http = require('http')
 	, path = require('path')
 	, cons = require('consolidate')
-	, url  = require('url');
+	, url  = require('url')
+	, fileupload = require('fileupload').createFileUpload( __dirname + '/public/tupl/' ).middleware;
 
 var app = express()
 
@@ -91,6 +92,8 @@ app.use(orm.express( DbStr, {
 }));
 
 app.use( app.router );
+
+app.post( '/files', fileupload, api.fupl );
 
 app.get('/filterdata', api.structdatai)
 app.get( '/files', api.files );
