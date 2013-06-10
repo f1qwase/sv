@@ -37,6 +37,8 @@ FilesView.prototype = {
 		this.view.append(this.render(file))
 	},
 	reload: function(parameters) {
+		parameters = parameters || this.__lastParamters
+		this.__lastParamters = parameters
 		var that = this
 		$.getJSON("/files", parameters || {}, function(files) {
 			that.view.empty()
@@ -168,22 +170,26 @@ SearchString.prototype = {
 	}
 }
 
-// $(function() {
-// 	$.Mustache.load('element_template.htm').done(function ( ) {
+var UploadLayout = function(params) {
+	$.extend(this, params) 
+	this.init()
+}
 
-// 	})
-// })
+UploadLayout.prototype = {
+	init: function() {
+		this.view.find(".selectpicker").selectpicker()
+	}
+}
 
 
 $(function(){
 	$.Mustache.load('/templates').done(function ( ) {
 		$.getJSON("/structure/", function(data) {
-			filesView = new FilesView({
+			$("#navbar_position").append($.Mustache.render('navbarView', data))
+
+			var filesView = new FilesView({
 				view: $("#accordion2")
 			})
-			filesView.reload({})
-			$("#navbar_position").append($.Mustache.render('navbarView', data))
-			$(".alert").alert();
 
 			var searchString = new SearchString({
 				view: $("#search-string"),
@@ -194,13 +200,27 @@ $(function(){
 				view: $(".navbar"),
 				searchString: searchString	
 			})
+
+			var uploadLayout = new UploadLayout({
+				view: $("#modal_file_upload")
+			})
+
+			$(".alert").alert();
+			filesView.reload()
 		
 			deleteFile = function(id) {
-				$.ajax({
-					url: '/files/' + id,
-					type: 'DELETE',
-					success: searchString.go
+				$("#modal_file_deleting .confirm-deleting-file").unbind("click").click(function() {
+					$.ajax({
+						url: '/files/' + id,
+						type: 'DELETE',
+					}).done(function() {
+						$("#modal_file_deleting").modal('hide')
+						searchString.go()
+					}).fail(function() {
+						// alert("fail")
+					})
 				})
+				$("#modal_file_deleting").modal()
 			}
 		})
 	})
