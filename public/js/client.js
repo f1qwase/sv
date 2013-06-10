@@ -191,18 +191,28 @@ UploadLayout.prototype = {
 	        maxNumberOfFiles: 1,
 	        autoUpload: false,
 	        add: function (e, data) {
-		        data.context = $('<div/>').appendTo('#files');
-		        if (data.files.length > 1) {
-		        	throw("multiple file upload disabled")
+                that.__data = data;
+	        },
+	        change: function (e, data) {
+	        	$("#files").empty()
+		        switch (data.files.length) {
+		        	case 0:
+		        		console.log("asdasdasd")
+		        		break
+		        	case 1:
+		        		data.context = $('<div/>').appendTo('#files');
+				        var file = data.files[0]
+			            var node = $('<div class="fade in"><button type="button" class="close" data-dismiss="alert">×</button>' + file.name + '</div>')
+			            node.bind("closed", function() {
+			            	that.__data = undefined
+			            })
+			            node.appendTo(data.context);
+		        		break
+		        	default:
+		        		throw("multiple file upload disabled")
+		        		break
 		        }
-		        var file = data.files[0]
-	            var node = $('<p/>')
-	                    .append($('<span/>').text(file.name));
-                console.log(that.uploadButton, that.uploadButton.data)
-                that.uploadButton.data(data);
-	            node.appendTo(data.context);
-	            console.log(that.uploadButton, that.uploadButton.data)
-	        }, 
+	        },
 	        done: function (e, data) {
 	            $.each(data.result.files, function (index, file) {
 	                $('<p/>').text(file.name).appendTo('#files');
@@ -218,15 +228,21 @@ UploadLayout.prototype = {
 	    });
 	    this.uploadButton.click(function() {
 	    	var params = that.getParameters()
-	    	 $('#fileupload').fileupload("option", "formData", params)
-	    	 $(this).data().submit()
+			$('#fileupload').fileupload("option", "formData", params)
+			if (that.__data != undefined && that.validate(params) == true) {
+				that.__data.submit()
+			}
+			else {
+				alert("надо тут все заполнить")
+			}
 	    })
 	},
 	getParameters: function() {
 		var params = {}
 		this.view.find("select").each(function(select) {
-			var key = attributesDictionary[$(this).attr("type")]
-			var value = $(this).text()
+			// console.log(this)
+			var key = attributesDictionary[$(this).attr("title")]
+			var value = $(this).find(":selected").text()
 			params[key] = value
 		})
 		this.view.find("input[type='text']").each(function() {
@@ -240,6 +256,14 @@ UploadLayout.prototype = {
 			params[key] = value
 		})
 		return params
+	},
+	validate: function(parameters) {
+		for (var i in parameters) {
+			if (!parameters[i]) {
+				return false
+			}
+		}
+		return true
 	}
 }
 
