@@ -98,7 +98,8 @@ app.get( '/structure/:id?', api.struct );
 app.get( '/', routes.index );
 app.post('/filterdata', api.structdata);
 app.post('/fupl', api.fupl);
-app.get('/templates', api.templates)
+app.get('/templates', api.templates);
+app.delete('/files/:id?', api.fdel );
 
 /* SERVER START */
 app.listen(app.get('port'), function() {console.log("Listening on " + app.get('port'))});
