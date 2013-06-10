@@ -50,16 +50,28 @@
 <!--End of navbar-->
 <!--Modal window for file uploading dialog-->
 <div id="modal_file_upload" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">Загрузить файл</h3>
   </div>
   <div class="modal-body">
-    <label>Файл</label>
-    <div class="input-append input-block-level">
-      <input class="span4" id="appendedInputButton" type="file" placeholder="загрузите файл с диска либо вставьте url">
-      <button class="btn" type="button">Выбрать</button>
+<!-- The fileinput-button span is used to style the file input field as button -->
+    <span class="btn btn-success fileinput-button">
+        <i class="icon-plus icon-white"></i>
+        <span>Файл...</span>
+        <!-- The file input field used as target for the file upload widget -->
+        <input id="fileupload" type="file" name="file" >
+    </span>
+    <!-- The container for the uploaded files -->
+    <div id="files" class="files"></div>
+    <!-- The global progress bar -->
+    <div id="progress" class="progress progress-success progress-striped">
+        <div class="bar"></div>
     </div>
+
+
     <form>
       <fieldset>
         <label>Название</label>
@@ -67,24 +79,26 @@
       </fieldset>
     </form>
     <label>Аттрибуты файла</label>
-        <select class="selectpicker span2" multiple title='Курс'>
-          {{#academicYear}}<option>{{.}}</option>{{/academicYear}}
-        </select>
-        <select class="selectpicker span2" multiple title='Семестр'>
-            {{#semester}}<option>{{.}}</option>{{/semester}}
-        </select>
-        <select class="selectpicker span2" multiple title='Предмет'>
-            {{#subject}}<option>{{.}}</option>{{/subject}}
-        </select>
-        <select class="selectpicker span2" multiple title='Тип'>
-            {{#type}}<option>{{.}}</option>{{/type}}
-        </select>
-    <label>Описание</label>
-    <textarea class="input-block-level" rows="5"></textarea>
+    <select class="selectpicker span2" multiple title='Курс'>
+      {{#academicYear}}<option>{{.}}</option>{{/academicYear}}
+    </select>
+    <select class="selectpicker span2" multiple title='Семестр'>
+        {{#semester}}<option>{{.}}</option>{{/semester}}
+    </select>
+    <select class="selectpicker span2" multiple title='Предмет'>
+        {{#subject}}<option>{{.}}</option>{{/subject}}
+    </select>
+    <select class="selectpicker span2" multiple title='Тип'>
+        {{#type}}<option>{{.}}</option>{{/type}}
+    </select>
+    <div>
+      <label>Описание</label>
+      <textarea class="input-block-level" rows="5"></textarea>
+    </div>
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Закрыть</button>
-    <button class="btn btn-primary">Применить</button>
+    <button id="upload-file-button" class="btn btn-primary">Загрузить</button>
   </div>
 </div>
 <!--End of modal window for file uploading-->

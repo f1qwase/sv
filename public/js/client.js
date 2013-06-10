@@ -12,6 +12,16 @@ $(document).bind("ajaxError", function(event, response, request) {
 	}
 })
 
+var attributesDictionary = {
+	"Курс": "academicYear",
+	"Семестр": "semester",
+	"Предмет": "subject",
+	"Тип": "type",
+	"ss": "ss",
+	"Описание": "description",
+	"Название": "name"
+}
+
 var tagFormat = function(key, value) {
 	return key + ":" + value
 }
@@ -129,13 +139,6 @@ SearchString.prototype = {
 			singleFieldDelimiter: "\t"
 		})
 	},
-	dictionary: {
-		"Курс": "academicYear",
-		"Семестр": "semester",
-		"Предмет": "subject",
-		"Тип": "type",
-		"ss": "ss"
-	},
 	go: function() {
 		this.filesView.reload(this.asGetParams())
 	},
@@ -164,7 +167,7 @@ SearchString.prototype = {
 		})
 		var getParameters = {}
 		for (var key in parameters) {
-			getParameters[this.dictionary[key]] = parameters[key].join(",")
+			getParameters[attributesDictionary[key]] = parameters[key].join(",")
 		}
 		return getParameters
 	}
@@ -178,6 +181,65 @@ var UploadLayout = function(params) {
 UploadLayout.prototype = {
 	init: function() {
 		this.view.find(".selectpicker").selectpicker()
+		var that = this
+		this.uploadButton = $("#upload-file-button")
+	    // Change this to the location of your server-side upload handler:
+	    var url = ('/files/');
+	    $('#fileupload').fileupload({
+	        url: url,
+	        dataType: 'json',
+	        maxNumberOfFiles: 1,
+	        autoUpload: false,
+	        add: function (e, data) {
+		        data.context = $('<div/>').appendTo('#files');
+		        if (data.files.length > 1) {
+		        	throw("multiple file upload disabled")
+		        }
+		        var file = data.files[0]
+	            var node = $('<p/>')
+	                    .append($('<span/>').text(file.name));
+                console.log(that.uploadButton, that.uploadButton.data)
+                that.uploadButton.data(data);
+	            node.appendTo(data.context);
+	            console.log(that.uploadButton, that.uploadButton.data)
+	        }, 
+	        done: function (e, data) {
+	            $.each(data.result.files, function (index, file) {
+	                $('<p/>').text(file.name).appendTo('#files');
+	            });
+	        },
+	        progressall: function (e, data) {
+	            var progress = parseInt(data.loaded / data.total * 100, 10);
+	            $('#progress .bar').css(
+	                'width',
+	                progress + '%'
+	            );
+	        }
+	    });
+	    this.uploadButton.click(function() {
+	    	var params = that.getParameters()
+	    	 $('#fileupload').fileupload("option", "formData", params)
+	    	 $(this).data().submit()
+	    })
+	},
+	getParameters: function() {
+		var params = {}
+		this.view.find("select").each(function(select) {
+			var key = attributesDictionary[$(this).attr("type")]
+			var value = $(this).text()
+			params[key] = value
+		})
+		this.view.find("input[type='text']").each(function() {
+			var key = attributesDictionary[$(this).siblings("label").text()]
+			var value = $(this).val()
+			params[key] = value
+		})
+		this.view.find("textarea").each(function() {
+			var key = attributesDictionary[$(this).siblings("label").text()]
+			var value = $(this).val()
+			params[key] = value
+		})
+		return params
 	}
 }
 
