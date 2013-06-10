@@ -22,7 +22,8 @@ exports.fupl = function(req, res) {
 		Out["filename"] = req.body['filename'];
 		Out["description"] = req.body['description'];
 		var YdFName = Date.now() + req.body.file[0].basename;
-		var uplfpath = require('path').dirname(require.main.filename) +'/public/tupl/' + req.body.file[0].path + req.body.file[0].basename;
+		var uplfp = require('path').dirname(require.main.filename) +'/public/tupl/' + req.body.file[0].path;
+		var uplfpath = uplfp + req.body.file[0].basename;
 		disk.uploadFile( uplfpath, YdFName, function(err) {
 			if (err)
 				res.send(400, "Error adding file - upload");
@@ -31,7 +32,7 @@ exports.fupl = function(req, res) {
 					if (err)
 						res.send(400, "Error adding file - publish");
 					disk.isPublic(YdFName, function(err, link) {
-						fs.unlink(uplfpath, function (err) {  });
+						fs.unlink(uplfpath, function (err) { if ( !err) {fs.rmdirSync(uplfp);} });
 						Out['link'] = link;
 						req.models.file.create([Out], function (err, items) {
 							res.send(400, "DB write err");
