@@ -217,9 +217,7 @@ UploadLayout.prototype = {
 	        done: function (e, data) {
 	        	that.refresh()
 	        	that.hide()
-	        	// $.each(data.result.files, function (index, file) {
-	            //     $('<p/>').text(file.name).appendTo('#files');
-	            // });
+	        	that.searchString.go()
 	        },
 	        always: function(e, data) {
 	        	console.log(data)
@@ -311,7 +309,8 @@ $(function(){
 			})
 
 			var uploadLayout = new UploadLayout({
-				view: $("#modal_file_upload")
+				view: $("#modal_file_upload"),
+				searchString: searchString
 			})
 
 			$(".alert").alert();
