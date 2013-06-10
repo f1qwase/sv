@@ -34,6 +34,7 @@ app.use( express.static(__dirname + '/public') );
 app.use(orm.express( DbStr, {
 	define: function (db, models) 
 	{
+		db.settings.set('connection.reconnect', 'auto-reconnect');
 		clientFields = ["id", "academicYear", "semester", "subject", "type", "filename", "uploader", "description", "uploadDate", "link"],
 		models.file = db.define("file", 
 		{
