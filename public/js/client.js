@@ -19,7 +19,7 @@ var attributesDictionary = {
 	"Тип": "type",
 	"ss": "ss",
 	"Описание": "description",
-	"Название": "name"
+	"Название": "filename"
 }
 
 var tagFormat = function(key, value) {
@@ -187,7 +187,7 @@ UploadLayout.prototype = {
 	    var url = ('/files/');
 	    $('#fileupload').fileupload({
 	        url: url,
-	        dataType: 'json',
+	        // dataType: 'json',
 	        maxNumberOfFiles: 1,
 	        autoUpload: false,
 	        add: function (e, data) {
@@ -202,7 +202,7 @@ UploadLayout.prototype = {
 		        	case 1:
 		        		data.context = $('<div/>').appendTo('#files');
 				        var file = data.files[0]
-			            var node = $('<div class="fade in"><button type="button" class="close" data-dismiss="alert">×</button>' + file.name + '</div>')
+			            var node = $('<div class="fade in"><button id="cancelUpload" type="button" class="close" data-dismiss="alert">×</button>' + file.name + '</div>')
 			            node.bind("closed", function() {
 			            	that.__data = undefined
 			            })
@@ -214,9 +214,14 @@ UploadLayout.prototype = {
 		        }
 	        },
 	        done: function (e, data) {
-	            $.each(data.result.files, function (index, file) {
-	                $('<p/>').text(file.name).appendTo('#files');
-	            });
+	        	that.refresh()
+	        	that.hide()
+	        	// $.each(data.result.files, function (index, file) {
+	            //     $('<p/>').text(file.name).appendTo('#files');
+	            // });
+	        },
+	        always: function(e, data) {
+	        	console.log(data)
 	        },
 	        progressall: function (e, data) {
 	            var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -230,6 +235,7 @@ UploadLayout.prototype = {
 	    	var params = that.getParameters()
 			$('#fileupload').fileupload("option", "formData", params)
 			if (that.__data != undefined && that.validate(params) == true) {
+				$('#progress .bar').show()
 				that.__data.submit()
 			}
 			else {
@@ -264,6 +270,22 @@ UploadLayout.prototype = {
 			}
 		}
 		return true
+	},
+	refresh: function() {
+		this.view.find("select").each(function(select) {
+			$(this).find(":selected").removeAttr("selected")
+		})
+		this.view.find("input[type=text]").each(function() {
+			$(this).val("")
+		})
+		this.view.find("textarea").each(function() {
+			$(this).val("")
+		})
+		this.view.find("#cancelUpload").alert('close')
+		this.view.find('#progress .bar').hide()
+	},
+	hide: function() {
+		this.view.modal("hide")
 	}
 }
 
